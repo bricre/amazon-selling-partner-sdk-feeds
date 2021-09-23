@@ -10,9 +10,11 @@ use OpenAPI\Runtime\AbstractModel as AbstractModel;
 class GetFeedsResponse extends AbstractModel
 {
     /**
+     * The feeds.
+     *
      * @var \Amz\Feeds\Model\FeedList
      */
-    public $payload = null;
+    public $feeds = null;
 
     /**
      * Returned when the number of results exceeds pageSize. To get the next page of
@@ -21,9 +23,4 @@ class GetFeedsResponse extends AbstractModel
      * @var string
      */
     public $nextToken = null;
-
-    /**
-     * @var \Amz\Feeds\Model\ErrorList
-     */
-    public $errors = null;
 }
