@@ -5,17 +5,22 @@ namespace Amz\Feeds\Model;
 use OpenAPI\Runtime\AbstractModel as AbstractModel;
 
 /**
- * The response for the createFeedDocument operation.
+ * Information required to upload a feed document's contents.
  */
 class CreateFeedDocumentResponse extends AbstractModel
 {
     /**
-     * @var \Amz\Feeds\Model\CreateFeedDocumentResult
+     * The identifier of the feed document.
+     *
+     * @var string
      */
-    public $payload = null;
+    public $feedDocumentId = null;
 
     /**
-     * @var \Amz\Feeds\Model\ErrorList
+     * The presigned URL for uploading the feed contents. This URL expires after 5
+     * minutes.
+     *
+     * @var string
      */
-    public $errors = null;
+    public $url = null;
 }
