@@ -21,8 +21,8 @@ class CreateFeedSpecification extends AbstractModel
     public $marketplaceIds = null;
 
     /**
-     * The document identifier returned by the createFeedDocument operation. Upload the
-     * feed document contents before calling the createFeed operation.
+     * The document identifier returned by the createFeedDocument operation. Encrypt
+     * and upload the feed document contents before calling the createFeed operation.
      *
      * @var string
      */

@@ -22,6 +22,11 @@ class FeedDocument extends AbstractModel
     public $url = null;
 
     /**
+     * @var \Amz\Feeds\Model\FeedDocumentEncryptionDetails
+     */
+    public $encryptionDetails = null;
+
+    /**
      * If present, the feed document contents are compressed using the indicated
      * algorithm.
      *
