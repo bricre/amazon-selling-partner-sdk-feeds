@@ -2,13 +2,13 @@
 
 namespace Amz\Feeds\Api;
 
+use Amz\Feeds\Model\CancelFeedResponse as CancelFeedResponse;
 use Amz\Feeds\Model\CreateFeedDocumentResponse as CreateFeedDocumentResponse;
 use Amz\Feeds\Model\CreateFeedDocumentSpecification as CreateFeedDocumentSpecification;
 use Amz\Feeds\Model\CreateFeedResponse as CreateFeedResponse;
 use Amz\Feeds\Model\CreateFeedSpecification as CreateFeedSpecification;
-use Amz\Feeds\Model\ErrorList as ErrorList;
-use Amz\Feeds\Model\Feed as Feed;
-use Amz\Feeds\Model\FeedDocument as FeedDocument;
+use Amz\Feeds\Model\GetFeedDocumentResponse as GetFeedDocumentResponse;
+use Amz\Feeds\Model\GetFeedResponse as GetFeedResponse;
 use Amz\Feeds\Model\GetFeedsResponse as GetFeedsResponse;
 use OpenAPI\Runtime\AbstractAPI as AbstractAPI;
 
@@ -46,11 +46,11 @@ class Feeds extends AbstractAPI
      *                       this token as the only parameter. Specifying nextToken with any other parameters
      *                       will cause the request to fail.
      *
-     * @return GetFeedsResponse|ErrorList
+     * @return GetFeedsResponse
      */
-    public function get(array $queries = [])
+    public function get(array $queries = []): GetFeedsResponse
     {
-        return $this->client->request('getFeeds', 'GET', 'feeds/2021-06-30/feeds',
+        return $this->client->request('getFeeds', 'GET', 'feeds/2020-09-04/feeds',
             [
                 'query' => $queries,
             ]
@@ -58,8 +58,8 @@ class Feeds extends AbstractAPI
     }
 
     /**
-     * Creates a feed. Upload the contents of the feed document before calling this
-     * operation.
+     * Creates a feed. Encrypt and upload the contents of the feed document before
+     * calling this operation.
      *
      * **Usage Plan:**
      *
@@ -70,8 +70,8 @@ class Feeds extends AbstractAPI
      * For more information, see "Usage Plans and Rate Limits" in the Selling Partner
      * API documentation.
      *
-     * @param CreateFeedSpecification $Model Creates a feed. Upload the contents of
-     *                                       the feed document before calling this operation.
+     * @param CreateFeedSpecification $Model Creates a feed. Encrypt and upload the
+     *                                       contents of the feed document before calling this operation.
      *
      * **Usage Plan:**
      *
@@ -82,11 +82,11 @@ class Feeds extends AbstractAPI
      * For more information, see "Usage Plans and Rate Limits" in the Selling Partner
      * API documentation.
      *
-     * @return CreateFeedResponse|ErrorList
+     * @return CreateFeedResponse
      */
-    public function createFeed(CreateFeedSpecification $Model)
+    public function createFeed(CreateFeedSpecification $Model): CreateFeedResponse
     {
-        return $this->client->request('createFeed', 'POST', 'feeds/2021-06-30/feeds',
+        return $this->client->request('createFeed', 'POST', 'feeds/2020-09-04/feeds',
             [
                 'json' => $Model->getArrayCopy(),
             ]
@@ -109,11 +109,11 @@ class Feeds extends AbstractAPI
      * @param $feedId The identifier for the feed. This identifier is unique only in
      * combination with a seller ID.
      *
-     * @return Feed|ErrorList
+     * @return GetFeedResponse
      */
-    public function getFeed($feedId)
+    public function getFeed($feedId): GetFeedResponse
     {
-        return $this->client->request('getFeed', 'GET', "feeds/2021-06-30/feeds/{$feedId}",
+        return $this->client->request('getFeed', 'GET', "feeds/2020-09-04/feeds/{$feedId}",
             [
             ]
         );
@@ -136,11 +136,11 @@ class Feeds extends AbstractAPI
      * @param $feedId The identifier for the feed. This identifier is unique only in
      * combination with a seller ID.
      *
-     * @return ErrorList
+     * @return CancelFeedResponse
      */
-    public function cancelFeed($feedId): ErrorList
+    public function cancelFeed($feedId): CancelFeedResponse
     {
-        return $this->client->request('cancelFeed', 'DELETE', "feeds/2021-06-30/feeds/{$feedId}",
+        return $this->client->request('cancelFeed', 'DELETE', "feeds/2020-09-04/feeds/{$feedId}",
             [
             ]
         );
@@ -148,7 +148,8 @@ class Feeds extends AbstractAPI
 
     /**
      * Creates a feed document for the feed type that you specify. This operation
-     * returns a presigned URL for uploading the feed document contents. It also
+     * returns encryption details for encrypting the contents of the document, as well
+     * as a presigned URL for uploading the encrypted feed document contents. It also
      * returns a feedDocumentId value that you can pass in with a subsequent call to
      * the createFeed operation.
      *
@@ -162,9 +163,10 @@ class Feeds extends AbstractAPI
      * API documentation.
      *
      * @param CreateFeedDocumentSpecification $Model Creates a feed document for the
-     *                                               feed type that you specify. This operation returns a presigned URL for uploading
-     *                                               the feed document contents. It also returns a feedDocumentId value that you can
-     *                                               pass in with a subsequent call to the createFeed operation.
+     *                                               feed type that you specify. This operation returns encryption details for
+     *                                               encrypting the contents of the document, as well as a presigned URL for
+     *                                               uploading the encrypted feed document contents. It also returns a feedDocumentId
+     *                                               value that you can pass in with a subsequent call to the createFeed operation.
      *
      * **Usage Plan:**
      *
@@ -175,11 +177,11 @@ class Feeds extends AbstractAPI
      * For more information, see "Usage Plans and Rate Limits" in the Selling Partner
      * API documentation.
      *
-     * @return CreateFeedDocumentResponse|ErrorList
+     * @return CreateFeedDocumentResponse
      */
-    public function createFeedDocument(CreateFeedDocumentSpecification $Model)
+    public function createFeedDocument(CreateFeedDocumentSpecification $Model): CreateFeedDocumentResponse
     {
-        return $this->client->request('createFeedDocument', 'POST', 'feeds/2021-06-30/documents',
+        return $this->client->request('createFeedDocument', 'POST', 'feeds/2020-09-04/documents',
             [
                 'json' => $Model->getArrayCopy(),
             ]
@@ -187,7 +189,9 @@ class Feeds extends AbstractAPI
     }
 
     /**
-     * Returns the information required for retrieving a feed document's contents.
+     * Returns the information required for retrieving a feed document's contents. This
+     * includes a presigned URL for the feed document as well as the information
+     * required to decrypt the document's contents.
      *
      * **Usage Plan:**
      *
@@ -200,11 +204,11 @@ class Feeds extends AbstractAPI
      *
      * @param $feedDocumentId The identifier of the feed document
      *
-     * @return FeedDocument|ErrorList
+     * @return GetFeedDocumentResponse
      */
-    public function getFeedDocument($feedDocumentId)
+    public function getFeedDocument($feedDocumentId): GetFeedDocumentResponse
     {
-        return $this->client->request('getFeedDocument', 'GET', "feeds/2021-06-30/documents/{$feedDocumentId}",
+        return $this->client->request('getFeedDocument', 'GET', "feeds/2020-09-04/documents/{$feedDocumentId}",
             [
             ]
         );

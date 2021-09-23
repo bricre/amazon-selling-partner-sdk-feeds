@@ -4,13 +4,18 @@ namespace Amz\Feeds\Model;
 
 use OpenAPI\Runtime\AbstractModel as AbstractModel;
 
+/**
+ * Response schema.
+ */
 class CreateFeedResponse extends AbstractModel
 {
     /**
-     * The identifier for the feed. This identifier is unique only in combination with
-     * a seller ID.
-     *
-     * @var string
+     * @var \Amz\Feeds\Model\CreateFeedResult
      */
-    public $feedId = null;
+    public $payload = null;
+
+    /**
+     * @var \Amz\Feeds\Model\ErrorList
+     */
+    public $errors = null;
 }
